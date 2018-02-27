@@ -3,10 +3,12 @@ import { takeLatest, all } from 'redux-saga/effects'
 /* ------------- Types ------------- */
 
 import { StartupTypes } from '../Redux/StartupRedux'
+import { DataTypes } from '../Redux/DataRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
+import { retrieveDeckList } from './DataSagas'
 
 /* ------------- API ------------- */
 
@@ -17,6 +19,7 @@ import { startup } from './StartupSagas'
 
 export default function * root () {
   yield all([
-    takeLatest(StartupTypes.STARTUP, startup)
+    takeLatest(StartupTypes.STARTUP, startup),
+    takeLatest(DataTypes.DECK_REQUEST, retrieveDeckList)
   ])
 }
