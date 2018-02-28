@@ -21,6 +21,17 @@ export default StyleSheet.create({
     flexDirection: 'column',
     position: 'relative'
   },
+  flipper: {
+    width: width - 16,
+    height: vh * 75,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backfaceVisibility: 'hidden'
+  },
+  flipperBack: {
+    position: 'absolute',
+    top: 0
+  },
   title: {
     marginTop: 60,
     marginRight: 20,

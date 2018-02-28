@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DataActions from '../Redux/DataRedux'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Animated } from 'react-native'
 import { clearLocalNotification, setLocalNotification } from '../Services/Helpers'
+import { Ionicons } from '@expo/vector-icons'
 
 import styles from './Styles/QuizScreenStyles'
 
@@ -13,9 +14,49 @@ class QuizScreen extends Component {
     super(props)
     this.state = {
       deck: null,
-      view: 'front',
       current: 0,
-      correct: 0
+      correct: 0,
+      animatedValue: new Animated.Value(0),
+      value: 0,
+      frontInterpolate: null,
+      backInterpolate: null
+    }
+  }
+
+  componentWillMount () {
+    const { animatedValue } = this.state
+
+    animatedValue.addListener(({ value }) => {
+      this.setState({ value })
+    })
+
+    const frontInterpolate = animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['0deg', '180deg']
+    })
+
+    const backInterpolate = animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg']
+    })
+
+    this.setState({ frontInterpolate, backInterpolate })
+  }
+
+  flipCard = () => {
+    const { animatedValue, value } = this.state
+    if (value >= 90) {
+      Animated.spring(animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10
+      }).start()
+    } else {
+      Animated.spring(animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10
+      }).start()
     }
   }
 
@@ -24,30 +65,24 @@ class QuizScreen extends Component {
     this.setState({ deck })
   }
 
-  flip = () => {
-    const { view } = this.state
-    if (view === 'front') this.setState({ view: 'back' })
-    else this.setState({ view: 'front' })
-  }
-
   correct = () => {
-    this.setState({ correct: this.state.correct + 1, current: this.state.current + 1, view: 'front' })
+    this.setState({ correct: this.state.correct + 1, current: this.state.current + 1 })
     clearLocalNotification()
       .then(setLocalNotification)
   }
 
   incorrect = () => {
-    this.setState({ current: this.state.current + 1, view: 'front' })
+    this.setState({ current: this.state.current + 1 })
   }
 
   render () {
-    const { deck, current, view, correct } = this.state
+    const { deck, current, correct, frontInterpolate, backInterpolate } = this.state
 
     if (deck === null) return <View />
 
     if (current === deck.questions.length) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, {alignItems: 'center', justifyContent: 'center'}]}>
           <Text style={styles.secondary}>Score: {correct} of {deck.questions.length}</Text>
           <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('DeckListScreen')}>
             <Text style={styles.buttonText}>Back Home</Text>
@@ -56,30 +91,40 @@ class QuizScreen extends Component {
       )
     }
 
+    const frontAnimatedStyle = {
+      transform: [
+        { rotateY: frontInterpolate}
+      ]
+    }
+    const backAnimatedStyle = {
+      transform: [
+        { rotateY: backInterpolate }
+      ]
+    }
+
     return (
       <View style={styles.container}>
-        {view === 'front'
-          ? <View>
+        <View>
+          <Animated.View style={[styles.flipper, frontAnimatedStyle]}>
             <Text style={styles.title}>{deck.questions[current].question}</Text>
             <Text style={styles.secondary}>{current} / {deck.questions.length}</Text>
-            <TouchableOpacity onPress={this.flip}>
-              <Text style={styles.secondary}>Flip</Text>
-            </TouchableOpacity>
-          </View>
-          : <View>
-            <Text style={styles.title}>{deck.questions[current].answer}</Text>
+          </Animated.View>
+          <Animated.View style={[backAnimatedStyle, styles.flipper, styles.flipperBack]}>
+            <Text style={styles.title}>{deck.questions[current].question}</Text>
             <Text style={styles.secondary}>{current} / {deck.questions.length}</Text>
-            <TouchableOpacity onPress={this.flip}>
-              <Text style={styles.secondary}>Flip</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={this.correct}>
               <Text style={styles.buttonText}> Correct </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.secondaryButton} onPress={this.incorrect}>
               <Text style={[styles.buttonText, {color: 'white'}]}> Incorrect </Text>
             </TouchableOpacity>
+          </Animated.View>
+        </View>
+        <TouchableOpacity onPress={() => this.flipCard()}>
+          <View style={{alignSelf: 'center'}}>
+            <Ionicons name='ios-browsers-outline' size={25} color='black' />
           </View>
-        }
+        </TouchableOpacity>
       </View>
     )
   }
