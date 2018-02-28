@@ -5,9 +5,6 @@ import DataActions from '../Redux/DataRedux'
 // attempts to retrieve deck list
 export function * retrieveDeckList () {
   try {
-    // const cards = { decks: [{name: 'udacicards', cards: 3}, {name: 'new deck', cards: 0}] }
-    // yield AsyncStorage.setItem('UdaciCards:deck', JSON.stringify(cards))
-
     const decks = yield AsyncStorage.getItem('UdaciCards:deck')
     const deckList = JSON.parse(decks)
 
