@@ -47,5 +47,11 @@ export function saveDeckTitle (title) {
 }
 
 export function addCardToDeck (title, card) {
-
+  console.tron.log(title)
+  console.tron.log(card)
+  return AsyncStorage.getItem(DECK_STORAGE).then(JSON.parse).then(decks => {
+    console.tron.log(decks[title])
+    decks[title].questions.push(card)
+    return AsyncStorage.setItem(DECK_STORAGE, JSON.stringify(decks)).then(() => AsyncStorage.getItem(DECK_STORAGE))
+  })
 }

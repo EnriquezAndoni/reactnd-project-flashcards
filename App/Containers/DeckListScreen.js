@@ -16,7 +16,9 @@ class DeckListScreen extends Component {
   }
 
   componentDidMount () {
-    if (this.props.decks === null) this.props.retrieveDeckList()
+    const { decks } = this.props
+    if (decks === null) this.props.retrieveDeckList()
+    else this.setState({decks})
   }
 
   componentWillReceiveProps (nextProps) {

@@ -33,14 +33,12 @@ class DeckScreen extends Component {
     if (deck) this.setState({deck})
   }
 
-  addCard = (deck) => this.props.navigation.navigate('DeckScreen', { deck })
+  addCard = (deck) => this.props.navigation.navigate('CreateCardScreen', { deck })
 
   startQuiz = (deck) => this.props.navigation.navigate('DeckScreen', { deck })
 
   render () {
-    const { deck } = this.state
-
-    console.tron.log(deck)
+    const { deck, id } = this.state
 
     if (deck === null) return <View />
 
@@ -48,10 +46,10 @@ class DeckScreen extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>{deck.title}</Text>
         <Text style={styles.secondary}>{deck.questions.length} cards</Text>
-        <TouchableOpacity style={styles.button} onPress={() => this.addCard(deck)}>
+        <TouchableOpacity style={styles.button} onPress={() => this.addCard(id)}>
           <Text style={styles.buttonText}> Add Card </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.secondaryButton} onPress={() => this.startQuiz(deck)}>
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => this.startQuiz(id)}>
           <Text style={[styles.buttonText, {color: 'white'}]}> Start Quiz </Text>
         </TouchableOpacity>
       </View>

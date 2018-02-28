@@ -1,6 +1,7 @@
-import {put} from 'redux-saga/effects'
+import {put, call} from 'redux-saga/effects'
 import DataActions from '../Redux/DataRedux'
-import {getDecks, getDeck, initializeStorage, saveDeckTitle} from '../Services/AsyncStorage'
+import {initializeStorage, getDecks, getDeck, saveDeckTitle, addCardToDeck} from '../Services/AsyncStorage'
+import { NavigationActions } from 'react-navigation'
 
 // attempts to retrieve deck list
 export function * retrieveDeckList () {
@@ -39,8 +40,24 @@ export function * addDeck ({title}) {
     console.tron.display({ name: '🚀 ADD DECK 🚀', value: { 'Decks': JSON.parse(decks) } })
 
     yield put(DataActions.addDeckSuccess(JSON.parse(decks)))
+    yield put(NavigationActions.navigate({ routeName: 'DeckListScreen' }))
   } catch (e) {
     console.tron.display({ name: '🚫 ADD DECK 🚫', value: { 'Error': e } })
+    yield put(DataActions.addDeckFailure(e))
+  }
+}
+
+export function * addCard ({title, card}) {
+  try {
+    const decks = yield addCardToDeck(title, card)
+    console.tron.log(decks)
+
+    console.tron.display({ name: '🚀 ADD CARD 🚀', value: { 'Decks': JSON.parse(decks) } })
+
+    yield put(DataActions.addDeckSuccess(JSON.parse(decks)))
+    yield call(retrieveDeck, {id: title})
+  } catch (e) {
+    console.tron.display({ name: '🚫 ADD CARD 🚫', value: { 'Error': e } })
     yield put(DataActions.addDeckFailure(e))
   }
 }

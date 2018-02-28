@@ -17,10 +17,8 @@ class CreateDeckScreen extends Component {
 
   submit = () => {
     const { title } = this.state
-    if (title !== null || title !== '') {
-      console.tron.log(title)
+    if (title !== null && title !== '') {
       this.props.addDeck(title)
-      this.props.navigation.navigate('DeckListScreen')
     } else {
       Alert.alert('Please enter a title')
     }
@@ -33,7 +31,7 @@ class CreateDeckScreen extends Component {
         <TextInput
           style={styles.textInput}
           onChangeText={(title) => this.setState({title})}
-          defaultValue='Insert the new title'
+          placeholder='Insert the new title'
           value={this.state.title}
         />
         <TouchableOpacity style={styles.button} onPress={this.submit}>

@@ -12,7 +12,10 @@ const { Types, Creators } = createActions({
   deckIdFailure: ['error'],
   addDeckRequest: ['title'],
   addDeckSuccess: ['decks'],
-  addDeckFailure: ['error']
+  addDeckFailure: ['error'],
+  addCardRequest: ['title', 'card'],
+  addCardSuccess: ['decks'],
+  addCardFailure: ['error']
 })
 
 export const DataTypes = Types
@@ -47,6 +50,12 @@ export const addDeckSuccess = (state, { decks }) => state.merge({ fetching: fals
 
 export const addDeckFailure = (state, { error }) => state.merge({ fetching: false, error })
 
+export const addCardRequest = (state) => state.merge({ fetching: true })
+
+export const addCardSuccess = (state, { decks }) => state.merge({ fetching: false, error: null, decks })
+
+export const addCardFailure = (state, { error }) => state.merge({ fetching: false, error })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -58,5 +67,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.DECK_ID_FAILURE]: deckIdFailure,
   [Types.ADD_DECK_REQUEST]: addDeckRequest,
   [Types.ADD_DECK_SUCCESS]: addDeckSuccess,
-  [Types.ADD_DECK_FAILURE]: addDeckFailure
+  [Types.ADD_DECK_FAILURE]: addDeckFailure,
+  [Types.ADD_CARD_REQUEST]: addCardRequest,
+  [Types.ADD_CARD_SUCCESS]: addCardSuccess,
+  [Types.ADD_CARD_FAILURE]: addCardFailure
 })
