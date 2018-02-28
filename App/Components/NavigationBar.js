@@ -54,6 +54,14 @@ export class NavigationBar extends Component {
             <Ionicons name='ios-arrow-round-back-outline' size={25} color='black' />
           </TouchableOpacity>
         )
+      } else {
+        return (
+          <TouchableOpacity
+            style={styles.menu}
+            onPress={() => this.props.navigation.navigate('CreateDeckScreen')}>
+            <Ionicons name='ios-add-outline' size={25} color='black' />
+          </TouchableOpacity>
+        )
       }
     }
 

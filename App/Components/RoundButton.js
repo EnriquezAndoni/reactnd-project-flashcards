@@ -7,7 +7,7 @@ export default function RoundButton ({ text, secondary, onPress }) {
   return (
     <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={onPress}>
       <View style={styles.card}>
-        <LinearGradient colors={['rgba(0,0,0,0.8)', 'transparent']}
+        <LinearGradient colors={['rgba(0,0,0,0.4)', 'transparent']}
           style={styles.gradient}>
           <Text style={styles.title}>{text}</Text>
           <Text style={styles.secondary}>{secondary} cards</Text>

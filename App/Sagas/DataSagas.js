@@ -19,3 +19,25 @@ export function * retrieveDeckList () {
     yield put(DataActions.deckFailure(e))
   }
 }
+
+export function * addDeck ({title}) {
+  try {
+    const decks = yield AsyncStorage.getItem('UdaciCards:deck')
+
+    let deckList = { decks: [] }
+    if (decks !== null) {
+      deckList = JSON.parse(decks)
+    }
+    deckList['decks'].push({name: title, cards: 0})
+
+    yield AsyncStorage.setItem('UdaciCards:deck', JSON.stringify(deckList))
+
+    console.tron.display({ name: '🚀 ADD DECK 🚀', value: { 'List': deckList['decks'] } })
+
+    yield put(DataActions.addDeckSuccess(deckList['decks']))
+
+  } catch (e) {
+    console.tron.display({ name: '🚫 ADD DECK 🚫', value: { 'Error': e } })
+    yield put(DataActions.addDeckFailure(e))
+  }
+}

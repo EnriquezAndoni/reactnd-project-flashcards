@@ -6,7 +6,10 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   deckRequest: null,
   deckSuccess: ['decks'],
-  deckFailure: ['error']
+  deckFailure: ['error'],
+  addDeckRequest: ['title'],
+  addDeckSuccess: ['decks'],
+  addDeckFailure: ['error']
 })
 
 export const DataTypes = Types
@@ -31,10 +34,22 @@ export const deckSuccess = (state, { decks }) => state.merge({ fetching: false, 
 // there retrieve content request failed
 export const deckFailure = (state, { error }) => state.merge({ fetching: false, error })
 
+// we're attempting to request the content
+export const addDeckRequest = (state) => state.merge({ fetching: true })
+
+// update the state with the received content
+export const addDeckSuccess = (state, { decks }) => state.merge({ fetching: false, error: null, decks })
+
+// there retrieve content request failed
+export const addDeckFailure = (state, { error }) => state.merge({ fetching: false, error })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.DECK_REQUEST]: deckRequest,
   [Types.DECK_SUCCESS]: deckSuccess,
-  [Types.DECK_FAILURE]: deckFailure
+  [Types.DECK_FAILURE]: deckFailure,
+  [Types.ADD_DECK_REQUEST]: addDeckRequest,
+  [Types.ADD_DECK_SUCCESS]: addDeckSuccess,
+  [Types.ADD_DECK_FAILURE]: addDeckFailure
 })

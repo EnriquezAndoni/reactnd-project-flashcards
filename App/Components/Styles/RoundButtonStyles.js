@@ -8,7 +8,7 @@ export default StyleSheet.create({
     flex: 1,
     marginTop: 4,
     marginRight: 8,
-    marginBottom: 4,
+    marginBottom: 8,
     marginLeft: 8,
     width: width - 16,
     shadowColor: '#000',
@@ -24,7 +24,7 @@ export default StyleSheet.create({
   card: {
     flex: 1,
     borderRadius: 8,
-    backgroundColor: '#999999',
+    backgroundColor: '#fff',
     overflow: 'hidden'
   },
   gradient: {
@@ -34,13 +34,13 @@ export default StyleSheet.create({
   },
   title: {
     color: '#fff',
-    fontSize: Fonts.size.medium,
+    fontSize: Fonts.size.regular,
     fontFamily: Fonts.type.bold
   },
   secondary: {
     color: '#fff',
     alignSelf: 'flex-end',
-    fontSize: Fonts.size.medium,
+    fontSize: 16,
     fontFamily: Fonts.type.base
   }
 })
