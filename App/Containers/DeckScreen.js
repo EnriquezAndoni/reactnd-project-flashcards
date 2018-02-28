@@ -35,7 +35,7 @@ class DeckScreen extends Component {
 
   addCard = (deck) => this.props.navigation.navigate('CreateCardScreen', { deck })
 
-  startQuiz = (deck) => this.props.navigation.navigate('DeckScreen', { deck })
+  startQuiz = () => this.props.navigation.navigate('QuizScreen')
 
   render () {
     const { deck, id } = this.state

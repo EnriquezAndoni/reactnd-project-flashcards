@@ -5,6 +5,7 @@ import DeckListScreen from '../Containers/DeckListScreen'
 import DeckScreen from '../Containers/DeckScreen'
 import CreateDeckScreen from '../Containers/CreateDeckScreen'
 import CreateCardScreen from '../Containers/CreateCardScreen'
+import QuizScreen from '../Containers/QuizScreen'
 
 import { NavigationBar } from '../Components/NavigationBar'
 
@@ -14,7 +15,8 @@ const PrimaryNav = StackNavigator({
   DeckListScreen: { screen: DeckListScreen },
   DeckScreen: { screen: DeckScreen },
   CreateDeckScreen: { screen: CreateDeckScreen },
-  CreateCardScreen: { screen: CreateCardScreen }
+  CreateCardScreen: { screen: CreateCardScreen },
+  QuizScreen: { screen: QuizScreen }
 }, {
   headerMode: 'screen',
   initialRouteName: 'DeckListScreen',

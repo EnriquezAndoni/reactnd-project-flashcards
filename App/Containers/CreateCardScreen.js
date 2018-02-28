@@ -22,7 +22,7 @@ class CreateCardScreen extends Component {
     if (question !== null && question !== '' && answer !== null && answer !== '') {
       this.props.addCard(title, {question, answer})
       this.setState({ question: '', answer: '' })
-      Alert.alert('Card added')
+      Alert.alert('Perfect!')
     } else {
       Alert.alert('Please enter a correct question and answer')
     }
