@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 937,
+  "packagerPid": 570,
   "expoServerNgrokUrl": "https://yg-tsc.tentu.udacicards.exp.direct",
   "packagerNgrokUrl": "https://packager.yg-tsc.tentu.udacicards.exp.direct",
-  "ngrokPid": 960
+  "ngrokPid": 601
 }

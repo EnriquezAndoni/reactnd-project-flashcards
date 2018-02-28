@@ -8,7 +8,7 @@ import { DataTypes } from '../Redux/DataRedux'
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
-import { retrieveDeckList, addDeck } from './DataSagas'
+import { retrieveDeckList, retrieveDeck, addDeck } from './DataSagas'
 
 /* ------------- API ------------- */
 
@@ -21,6 +21,7 @@ export default function * root () {
   yield all([
     takeLatest(StartupTypes.STARTUP, startup),
     takeLatest(DataTypes.DECK_REQUEST, retrieveDeckList),
+    takeLatest(DataTypes.DECK_ID_REQUEST, retrieveDeck),
     takeLatest(DataTypes.ADD_DECK_REQUEST, addDeck)
   ])
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import RowList from '../Components/RowList'
+import { View } from 'react-native'
 
 import DataActions from '../Redux/DataRedux'
 
@@ -10,20 +11,16 @@ class DeckListScreen extends Component {
   constructor () {
     super()
     this.state = {
-      decks: []
+      decks: null
     }
   }
 
   componentDidMount () {
-    const { decks } = this.props
-
-    if (decks.length !== 0) this.setState({decks})
-    else this.props.retrieveDeckList()
+    if (this.props.decks === null) this.props.retrieveDeckList()
   }
 
   componentWillReceiveProps (nextProps) {
     const { decks } = nextProps
-
     if (decks) this.setState({decks})
   }
 
@@ -31,9 +28,10 @@ class DeckListScreen extends Component {
 
   render () {
     const { decks } = this.state
+    if (decks === null) return <View />
 
     return (
-      <RowList data={decks} onPress={this.onPressDeck} />
+      <RowList decks={decks} onPress={this.onPressDeck} />
     )
   }
 }

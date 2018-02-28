@@ -1,38 +1,44 @@
 import {put} from 'redux-saga/effects'
-import { AsyncStorage } from 'react-native'
 import DataActions from '../Redux/DataRedux'
+import {getDecks, getDeck, initializeStorage, saveDeckTitle} from '../Services/AsyncStorage'
 
 // attempts to retrieve deck list
 export function * retrieveDeckList () {
   try {
-    const decks = yield AsyncStorage.getItem('UdaciCards:deck')
-    const deckList = JSON.parse(decks)
+    let decks = yield getDecks()
 
-    console.tron.display({ name: '🏡 DECK LIST 🏡', value: { 'List': deckList['decks'] } })
+    if (decks === null) {
+      decks = yield initializeStorage()
+    }
 
-    yield put(DataActions.deckSuccess(deckList['decks']))
+    console.tron.display({ name: '🏡 DECK LIST 🏡', value: { 'Decks': JSON.parse(decks) } })
+
+    yield put(DataActions.deckSuccess(JSON.parse(decks)))
   } catch (e) {
     console.tron.display({ name: '🚫 DECK LIST 🚫', value: { 'Error': e } })
     yield put(DataActions.deckFailure(e))
   }
 }
 
+export function * retrieveDeck ({id}) {
+  try {
+    const deck = yield getDeck(id)
+    console.tron.display({ name: '🔥 DECK 🔥', value: { 'Deck': deck } })
+
+    yield put(DataActions.deckIdSuccess(deck))
+  } catch (e) {
+    console.tron.display({ name: '🚫 DECK 🚫', value: { 'Error': e } })
+    yield put(DataActions.deckIdFailure(e))
+  }
+}
+
 export function * addDeck ({title}) {
   try {
-    const decks = yield AsyncStorage.getItem('UdaciCards:deck')
+    const decks = yield saveDeckTitle(title)
 
-    let deckList = { decks: [] }
-    if (decks !== null) {
-      deckList = JSON.parse(decks)
-    }
-    deckList['decks'].push({name: title, cards: 0})
+    console.tron.display({ name: '🚀 ADD DECK 🚀', value: { 'Decks': JSON.parse(decks) } })
 
-    yield AsyncStorage.setItem('UdaciCards:deck', JSON.stringify(deckList))
-
-    console.tron.display({ name: '🚀 ADD DECK 🚀', value: { 'List': deckList['decks'] } })
-
-    yield put(DataActions.addDeckSuccess(deckList['decks']))
-
+    yield put(DataActions.addDeckSuccess(JSON.parse(decks)))
   } catch (e) {
     console.tron.display({ name: '🚫 ADD DECK 🚫', value: { 'Error': e } })
     yield put(DataActions.addDeckFailure(e))
