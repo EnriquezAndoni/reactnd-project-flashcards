@@ -5,6 +5,8 @@ import RowList from '../Components/RowList'
 import DataActions from '../Redux/DataRedux'
 
 class DeckListScreen extends Component {
+  static navigationOptions = { index: 0, title: 'DECKS' }
+
   constructor () {
     super()
     this.state = {
@@ -25,11 +27,13 @@ class DeckListScreen extends Component {
     if (decks) this.setState({decks})
   }
 
+  onPressDeck = (deck) => this.props.navigation.navigate('DeckScreen', { deck })
+
   render () {
     const { decks } = this.state
 
     return (
-      <RowList data={decks} />
+      <RowList data={decks} onPress={this.onPressDeck} />
     )
   }
 }

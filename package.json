@@ -27,6 +27,7 @@
     "git-hook": "npm run lint -s && npm run test -s"
   },
   "dependencies": {
+    "@expo/vector-icons": "^6.3.1",
     "apisauce": "^0.14.3",
     "crypto-js": "^3.1.9-1",
     "expo": "^25.0.0",

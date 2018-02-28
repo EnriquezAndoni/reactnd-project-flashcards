@@ -1,20 +1,25 @@
+import React from 'react'
 import { StackNavigator } from 'react-navigation'
 import LaunchScreen from '../Containers/LaunchScreen'
 import DeckListScreen from '../Containers/DeckListScreen'
+import DeckScreen from '../Containers/DeckScreen'
 
-import styles from './Styles/NavigationStyles'
+import { NavigationBar } from '../Components/NavigationBar'
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
   LaunchScreen: { screen: LaunchScreen },
-  DeckListScreen: { screen: DeckListScreen }
+  DeckListScreen: { screen: DeckListScreen },
+  DeckScreen: { screen: DeckScreen }
 }, {
-  // Default config for all screens
-  headerMode: 'none',
+  headerMode: 'screen',
   initialRouteName: 'DeckListScreen',
-  navigationOptions: {
-    headerStyle: styles.header
-  }
+  navigationOptions: ({ navigation }) => ({
+    gesturesEnabled: false,
+    header: (headerProps, screenProps) => {
+      return <NavigationBar navigation={navigation} headerProps={headerProps} />
+    }
+  })
 })
 
 export default PrimaryNav
