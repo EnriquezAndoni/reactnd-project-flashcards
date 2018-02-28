@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DataActions from '../Redux/DataRedux'
 import { View, Text, TouchableOpacity } from 'react-native'
+import { clearLocalNotification, setLocalNotification } from '../Services/Helpers'
 
 import styles from './Styles/QuizScreenStyles'
 
@@ -31,6 +32,8 @@ class QuizScreen extends Component {
 
   correct = () => {
     this.setState({ correct: this.state.correct + 1, current: this.state.current + 1, view: 'front' })
+    clearLocalNotification()
+      .then(setLocalNotification)
   }
 
   incorrect = () => {
@@ -77,9 +80,7 @@ class QuizScreen extends Component {
             </TouchableOpacity>
           </View>
         }
-
       </View>
-
     )
   }
 }
