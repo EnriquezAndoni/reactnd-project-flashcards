@@ -44,7 +44,7 @@ class CreateCardScreen extends Component {
           value={this.state.answer}
         />
         <TouchableOpacity style={styles.button} onPress={this.submit}>
-          <Text style={[styles.buttonText, {color: 'white'}]}> Submit </Text>
+          <Text style={[styles.buttonText, {color: 'white'}]}>Create Card</Text>
         </TouchableOpacity>
       </View>
     )

@@ -97,6 +97,11 @@ class QuizScreen extends Component {
     this.setState({ current: this.state.current + 1 })
   }
 
+  restartQuiz = () => {
+    this.resetAnimation()
+    this.setState({ correct: 0, current: 0 })
+  }
+
   render () {
     const { deck, current, correct, frontInterpolate, backInterpolate } = this.state
 
@@ -106,8 +111,11 @@ class QuizScreen extends Component {
       return (
         <View style={[styles.container, {alignItems: 'center', justifyContent: 'center'}]}>
           <Text style={styles.secondary}>Score: {correct} of {deck.questions.length}</Text>
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('DeckListScreen')}>
-            <Text style={styles.buttonText}>Back Home</Text>
+          <TouchableOpacity style={styles.button} onPress={() => this.restartQuiz()}>
+            <Text style={styles.buttonText}>Restart Quiz</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.secondaryButton} onPress={() => this.props.navigation.goBack()}>
+            <Text style={[styles.buttonText, {color: 'white'}]}>Back to Deck</Text>
           </TouchableOpacity>
         </View>
       )
