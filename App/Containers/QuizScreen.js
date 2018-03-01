@@ -132,7 +132,7 @@ class QuizScreen extends Component {
             <Text style={styles.secondary}>{current} / {deck.questions.length}</Text>
           </Animated.View>
           <Animated.View style={[backAnimatedStyle, styles.flipper, styles.flipperBack]}>
-            <Text style={styles.title}>{deck.questions[current].question}</Text>
+            <Text style={styles.title}>{deck.questions[current].answer}</Text>
             <Text style={styles.secondary}>{current} / {deck.questions.length}</Text>
             <TouchableOpacity style={styles.button} onPress={this.correct}>
               <Text style={styles.buttonText}> Correct </Text>
