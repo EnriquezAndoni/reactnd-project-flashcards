@@ -43,6 +43,26 @@ class QuizScreen extends Component {
     this.setState({ frontInterpolate, backInterpolate })
   }
 
+  resetAnimation = () => {
+    const animatedValue = new Animated.Value(0)
+
+    animatedValue.addListener(({ value }) => {
+      this.setState({ value })
+    })
+
+    const frontInterpolate = animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['0deg', '180deg']
+    })
+
+    const backInterpolate = animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg']
+    })
+
+    this.setState({ animatedValue, value: 0, frontInterpolate, backInterpolate })
+  }
+
   flipCard = () => {
     const { animatedValue, value } = this.state
     if (value >= 90) {
@@ -66,12 +86,14 @@ class QuizScreen extends Component {
   }
 
   correct = () => {
+    this.resetAnimation()
     this.setState({ correct: this.state.correct + 1, current: this.state.current + 1 })
     clearLocalNotification()
       .then(setLocalNotification)
   }
 
   incorrect = () => {
+    this.resetAnimation()
     this.setState({ current: this.state.current + 1 })
   }
 
