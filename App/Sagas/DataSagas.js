@@ -40,7 +40,7 @@ export function * addDeck ({title}) {
     console.tron.display({ name: '🚀 ADD DECK 🚀', value: { 'Decks': JSON.parse(decks) } })
 
     yield put(DataActions.addDeckSuccess(JSON.parse(decks)))
-    yield put(NavigationActions.navigate({ routeName: 'DeckListScreen' }))
+    yield put(NavigationActions.navigate({ routeName: 'DeckScreen', params: {deck: title} }))
   } catch (e) {
     console.tron.display({ name: '🚫 ADD DECK 🚫', value: { 'Error': e } })
     yield put(DataActions.addDeckFailure(e))
